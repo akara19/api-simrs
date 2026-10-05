@@ -1,0 +1,37 @@
+<?php
+header('Access-Control-Allow-Origin: *'); // XML
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Content-Type: application/json; charset=UTF-8');
+
+require_once '../config/database.php';
+require_once '../helpers/response.php';
+
+
+$id         = $_GET['id'] ?? null;
+$pasien_id  = $_GET['pasien_id'] ?? null;
+$jadwal_id  = $_GET['jadwal_id'] ?? null;
+$tanggal_kunjungan  = $_GET['tanggal_kunjungan'] ?? null;
+$no_antrian  = $_GET['no_antrian'] ?? null;
+$status  = $_GET['status'] ?? null;
+
+if (empty($id) || empty($pasien_id)) {
+    sendResponse('error', 'Id dan Nama pasien wajib diisi', null, 400);
+}
+
+$pdo    = getConnection();
+$cek    = $pdo->prepare("SELECT id FROM pendaftaran WHERE id = ?");
+$cek->execute([$id]);
+if (!$cek->fetch()) {
+    sendResponse('error', 'Data pendaftaran tidak ditemukan', null, 404);
+}
+
+
+$stmt   = $pdo->prepare("UPDATE pendaftaran  SET pasien_id=?,jadwal_id=?,tanggal_kunjungan=?,no_antrian=?,status=? WHERE id=?");
+$stmt->execute([$pasien_id, $jadwal_id, $tanggal_kunjungan, $no_antrian, $id]);
+
+sendResponse('success', 'Data Pendaftaran Berhasil diperbaruii', [
+    'id'        => $id,
+    'pasien_id' => $pasien_id,
+    'tanggal_kunjungan'    => $tanggal_kunjungan
+], 201);
