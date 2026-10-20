@@ -48,5 +48,5 @@ try {
         'nama'      => $nama
     ], 201);
 } catch (PDOException $e) {
-    sendResponse('error', 'Gagal menyimpan data', null, 500);
+    sendResponse('error', 'Gagal menyimpan data' . $e->getMessage(), null, 500);
 }
