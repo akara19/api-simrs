@@ -19,8 +19,14 @@ export default function makeFormScreen({ api, fields }) {
       return v;
     });
     const [errors, setErrors] = useState({});
+
     const [options, setOptions] = useState({});
     const [saving, setSaving] = useState(false);
+
+    const normalizeOption = (o) =>
+  o !== null && typeof o === 'object'
+    ? { value: String(o.value ?? ''), label: String(o.label ?? o.value ?? '') }
+    : { value: String(o), label: String(o) };
 
     // Muat pilihan untuk field select yang datanya berasal dari API
     useEffect(() => {
@@ -69,7 +75,8 @@ export default function makeFormScreen({ api, fields }) {
 
     const renderField = (f) => {
       if (f.type === 'hidden') return null;
-      const opts = options[f.name] || f.options || [];
+      const rawOpts = options[f.name] || f.options || [];
+      const opts = (Array.isArray(rawOpts) ? rawOpts : []).map(normalizeOption);
       return (
         <View key={f.name}>
           <Text style={s.label}>{f.label}{f.required ? ' *' : ''}</Text>
@@ -90,11 +97,15 @@ export default function makeFormScreen({ api, fields }) {
             </View>
           ) : (
             <TextInput
-              style={[s.input, f.type === 'multiline' && s.multiline, errors[f.name] && s.inputError]}
+             style={[s.input, f.type === 'multiline' && s.multiline, errors[f.name] && s.inputError]}
               value={values[f.name]}
               onChangeText={(t) => setField(f.name, t)}
               placeholder={f.type === 'date' ? 'YYYY-MM-DD' : f.placeholder}
-              keyboardType={f.type === 'number' ? 'numeric' : 'default'}
+              keyboardType={
+                f.type === 'number' ? 'numeric' : f.type === 'email' ? 'email-address' : 'default'
+              }
+              secureTextEntry={f.type === 'password'}
+              autoCapitalize={f.type === 'email' || f.type === 'password' ? 'none' : 'sentences'}
               multiline={f.type === 'multiline'}
               maxLength={f.maxLength}
             />

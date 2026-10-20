@@ -6,7 +6,7 @@ import PoliListScreen from './src/screens/PoliListScreen';
 import PoliFormScreen from './src/screens/PoliFormScreen';
 import {
   DokterList, DokterForm, PasienList, PasienForm, PendaftaranList,
-  PendaftaranForm, RekamMedisList, RekamMedisForm, ResepList, ResepForm,
+  PendaftaranForm, RekamMedisList, RekamMedisForm, ResepList, ResepForm,UsersList,UsersForm
 } from './src/screens/entityScreens';
 
 const Stack = createNativeStackNavigator();
@@ -33,6 +33,9 @@ export default function App() {
         <Stack.Screen name="RekamMedisForm" component={RekamMedisForm} options={formOpt('Rekam Medis')} />
         <Stack.Screen name="ResepList" component={ResepList} options={listOpt('Resep Obat')} />
         <Stack.Screen name="ResepForm" component={ResepForm} options={formOpt('Resep')} />
+        
+        <Stack.Screen name="UsersList" component={UsersList} options={listOpt('Data User')} />
+        <Stack.Screen name="UsersForm" component={UsersForm} options={formOpt('User')} />
       </Stack.Navigator>
     </NavigationContainer>
   );

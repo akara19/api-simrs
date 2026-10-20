@@ -7,6 +7,7 @@ const MENU = [
   { label: 'Data Pasien', route: 'PasienList' },
   { label: 'Pendaftaran Antrian', route: 'PendaftaranList' },
   { label: 'Rekam Medis (dan Resep)', route: 'RekamMedisList' },
+   { label: 'Data user', route: 'UsersList' },
 ];
 
 export default function HomeScreen({ navigation }) {

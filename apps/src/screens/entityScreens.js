@@ -1,7 +1,7 @@
 import makeListScreen from '../components/makeListScreen';
 import makeFormScreen from '../components/makeFormScreen';
 import {
-  dokterApi, pasienApi, pendaftaranApi, rekamMedisApi, resepApi,
+  dokterApi, pasienApi, pendaftaranApi, rekamMedisApi, resepApi,usersApi,
 } from '../services/apis';
 import { exactDigits, isDate, positiveInt } from '../utils/validators';
 import { showAlert } from '../utils/dialog';
@@ -129,3 +129,28 @@ export const ResepForm = makeFormScreen({
     { name: 'jumlah', label: 'Jumlah', type: 'number', required: true, default: '1', validate: [positiveInt('Jumlah')] },
   ],
 });
+
+
+// ---------- Users ----------
+export const UsersList = makeListScreen({
+  api: usersApi, formRoute: 'UsersForm',
+  titleOf: (p) => p.nama,
+  subOf: (p) => `${p.email}`,
+});
+export const UsersForm = makeFormScreen({
+  api: usersApi,
+  fields: [
+    { name: 'nama', label: 'Nama Lengkap', required: true, maxLength: 100 },
+    { name: 'email', label: 'E-mail', type: 'email', required: true },
+    { name: 'password', label: 'Password', type: 'password', required: true },
+    {
+      name: 'role', label: 'Role', type: 'select', default: 'pasien',
+      options: [
+        { value: 'pasien', label: 'Pasien' },
+        { value: 'dokter', label: 'Dokter' },
+        { value: 'admin', label: 'Admin' },
+      ],
+    },
+  ],
+});
+
