@@ -15,11 +15,12 @@ export default function HomeScreen({ navigation }) {
       {MENU.map((m) => (
         <TouchableOpacity key={m.route} style={s.item} onPress={() => navigation.navigate(m.route)}>
           <Text style={s.text}>{m.label}</Text>
-</TouchableOpacity>
+        </TouchableOpacity>
       ))}
     </ScrollView>
   );
 }
+
 const s = StyleSheet.create({
   container: { flex: 1, padding: 16, backgroundColor: '#f3f4f6' },
   item: { backgroundColor: '#fff', padding: 18, borderRadius: 10, marginBottom: 12, elevation: 2 },

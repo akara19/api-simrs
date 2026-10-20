@@ -1,5 +1,6 @@
 import { Alert, Platform } from 'react-native';
 
+// Pesan informasi; onOk dijalankan setelah pengguna menekan OK
 export function showAlert(title, message, onOk) {
   if (Platform.OS === 'web') {
     window.alert(`${title}\n\n${message}`);
@@ -9,6 +10,7 @@ export function showAlert(title, message, onOk) {
   }
 }
 
+// Dialog konfirmasi; onConfirm dijalankan bila pengguna menyetujui
 export function confirmDialog(title, message, onConfirm) {
   if (Platform.OS === 'web') {
     if (window.confirm(`${title}\n\n${message}`)) onConfirm();

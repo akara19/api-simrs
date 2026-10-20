@@ -41,5 +41,3 @@ export function createCrudService(resource, { updateVia = 'query' } = {}) {
     remove: (id) => request(url('delete', `?id=${id}`), { method: 'POST' }),
   };
 }
-
-src/services/apis

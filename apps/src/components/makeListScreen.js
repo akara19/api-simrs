@@ -1,6 +1,8 @@
-import React, {useCallback,useState} from "react";
-import {View,Text,FlatList,TouchableOpacity,StyleSheet, ActivityIndicator,} from 'react-native';
-import {  useFocusEffect} from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
+import {
+  View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator,
+} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { showAlert, confirmDialog } from '../utils/dialog';
 
 export default function makeListScreen({ api, formRoute, titleOf, subOf, filterBy, actions }) {
@@ -38,8 +40,7 @@ export default function makeListScreen({ api, formRoute, titleOf, subOf, filterB
     const renderItem = ({ item }) => {
       const extra = actions ? actions(item, { reload: loadData, navigation }) : [];
       const buttons = [
-        { label: 'Edit', color: '#f59e0b', onPress: () => navigation.navigate(formRoute, { item,
-defaults }) },
+        { label: 'Edit', color: '#f59e0b', onPress: () => navigation.navigate(formRoute, { item, defaults }) },
         ...extra,
         { label: 'Hapus', color: '#ef4444', onPress: () => handleDelete(item) },
       ];
@@ -49,8 +50,7 @@ defaults }) },
           <Text style={s.sub}>{subOf(item)}</Text>
           <View style={s.btnRow}>
             {buttons.map((b) => (
-              <TouchableOpacity key={b.label} style={[s.btn, { backgroundColor: b.color }]}
-onPress={b.onPress}>
+              <TouchableOpacity key={b.label} style={[s.btn, { backgroundColor: b.color }]} onPress={b.onPress}>
                 <Text style={s.btnText}>{b.label}</Text>
               </TouchableOpacity>
             ))}
@@ -84,8 +84,7 @@ const s = StyleSheet.create({
   title: { fontSize: 16, fontWeight: 'bold' },
   sub: { color: '#6b7280', marginTop: 2 },
   btnRow: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 },
-  btn: { paddingVertical: 7, paddingHorizontal: 12, borderRadius: 6, marginRight: 6, marginBottom: 4
-},
+  btn: { paddingVertical: 7, paddingHorizontal: 12, borderRadius: 6, marginRight: 6, marginBottom: 4 },
   btnText: { color: '#fff', fontWeight: '600' },
   empty: { textAlign: 'center', marginTop: 30, color: '#6b7280' },
   fab: {

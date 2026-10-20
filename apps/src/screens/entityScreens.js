@@ -10,8 +10,7 @@ import { showAlert } from '../utils/dialog';
 const pasienOptions = async () =>
   (await pasienApi.list()).map((p) => ({ value: p.id, label: `${p.no_rm} - ${p.nama}` }));
 const dokterOptions = async () =>
-  (await dokterApi.list()).map((d) => ({ value: d.id, label: `${d.nama} (${d.spesialisasi || '-'})`
-}));
+  (await dokterApi.list()).map((d) => ({ value: d.id, label: `${d.nama} (${d.spesialisasi || '-'})` }));
 const pendaftaranOptions = async () =>
   (await pendaftaranApi.list()).map((p) => ({
     value: p.id, label: `#${p.id} antrian ${p.no_antrian} (${p.tanggal_kunjungan})`,
@@ -24,13 +23,15 @@ export const DokterList = makeListScreen({
   subOf: (d) => `${d.spesialisasi || '-'} | SIP: ${d.no_sip || '-'}`,
 });
 export const DokterForm = makeFormScreen({
-  api: dokterApi,ields: [
+  api: dokterApi,
+  fields: [
     { name: 'nama', label: 'Nama Dokter', required: true, maxLength: 100 },
     { name: 'spesialisasi', label: 'Spesialisasi', maxLength: 100 },
     { name: 'no_sip', label: 'No. SIP', maxLength: 50 },
-  ],});
+  ],
+});
 
-  // ---------- PASIEN ----------
+// ---------- PASIEN ----------
 export const PasienList = makeListScreen({
   api: pasienApi, formRoute: 'PasienForm',
   titleOf: (p) => p.nama,
@@ -39,14 +40,11 @@ export const PasienList = makeListScreen({
 export const PasienForm = makeFormScreen({
   api: pasienApi,
   fields: [
-    { name: 'user_id', label: 'ID User (akun login)', type: 'number', required: true, validate:
-[positiveInt('ID User')] },
-    { name: 'nik', label: 'NIK', type: 'number', required: true, maxLength: 16, validate:
-[exactDigits('NIK', 16)] },
+    { name: 'user_id', label: 'ID User (akun login)', type: 'number', required: true, validate: [positiveInt('ID User')] },
+    { name: 'nik', label: 'NIK', type: 'number', required: true, maxLength: 16, validate: [exactDigits('NIK', 16)] },
     { name: 'no_rm', label: 'No. Rekam Medis', required: true, maxLength: 20 },
     { name: 'nama', label: 'Nama Lengkap', required: true, maxLength: 100 },
-    { name: 'tgl_lahir', label: 'Tanggal Lahir', type: 'date', required: true, validate:
-[isDate('Tanggal lahir')] },
+    { name: 'tgl_lahir', label: 'Tanggal Lahir', type: 'date', required: true, validate: [isDate('Tanggal lahir')] },
     {
       name: 'jenis_kelamin', label: 'Jenis Kelamin', type: 'select', required: true,
       options: [{ value: 'L', label: 'Laki-laki' }, { value: 'P', label: 'Perempuan' }],
@@ -54,6 +52,7 @@ export const PasienForm = makeFormScreen({
     { name: 'alamat', label: 'Alamat', type: 'multiline' },
   ],
 });
+
 // ---------- PENDAFTARAN ----------
 const STATUS_COLOR = { dipanggil: '#2563eb', selesai: '#16a34a', batal: '#6b7280' };
 
@@ -84,19 +83,18 @@ export const PendaftaranList = makeListScreen({
 export const PendaftaranForm = makeFormScreen({
   api: pendaftaranApi,
   fields: [
-    { name: 'pasien_id', label: 'Pasien', type: 'select', required: true, loadOptions: pasienOptions
-},
-    { name: 'jadwal_id', label: 'ID Jadwal Praktik', type: 'number', required: true, validate:
-[positiveInt('ID Jadwal')] },
-    { name: 'tanggal_kunjungan', label: 'Tanggal Kunjungan', type: 'date', required: true, validate:
-[isDate('Tanggal kunjungan')] },
-    { name: 'no_antrian', label: 'No. Antrian', type: 'number', required: true, validate:
-[positiveInt('No. antrian')] },{
+    { name: 'pasien_id', label: 'Pasien', type: 'select', required: true, loadOptions: pasienOptions },
+    { name: 'jadwal_id', label: 'ID Jadwal Praktik', type: 'number', required: true, validate: [positiveInt('ID Jadwal')] },
+    { name: 'tanggal_kunjungan', label: 'Tanggal Kunjungan', type: 'date', required: true, validate: [isDate('Tanggal kunjungan')] },
+    { name: 'no_antrian', label: 'No. Antrian', type: 'number', required: true, validate: [positiveInt('No. antrian')] },
+    {
       name: 'status', label: 'Status', type: 'select', required: true, default: 'menunggu',
       options: ['menunggu', 'dipanggil', 'selesai', 'batal'].map((v) => ({ value: v, label: v })),
     },
   ],
-});// ---------- REKAM MEDIS ----------
+});
+
+// ---------- REKAM MEDIS ----------
 export const RekamMedisList = makeListScreen({
   api: rekamMedisApi, formRoute: 'RekamMedisForm',
   titleOf: (r) => `Rekam Medis #${r.id} (Pendaftaran #${r.pendaftaran_id})`,
@@ -109,10 +107,8 @@ export const RekamMedisList = makeListScreen({
 export const RekamMedisForm = makeFormScreen({
   api: rekamMedisApi,
   fields: [
-    { name: 'pendaftaran_id', label: 'Pendaftaran', type: 'select', required: true, loadOptions:
-pendaftaranOptions },
-    { name: 'dokter_id', label: 'Dokter Pemeriksa', type: 'select', required: true, loadOptions:
-dokterOptions },
+    { name: 'pendaftaran_id', label: 'Pendaftaran', type: 'select', required: true, loadOptions: pendaftaranOptions },
+    { name: 'dokter_id', label: 'Dokter Pemeriksa', type: 'select', required: true, loadOptions: dokterOptions },
     { name: 'diagnosa', label: 'Diagnosa', type: 'multiline', required: true },
     { name: 'catatan', label: 'Catatan', type: 'multiline' },
   ],
@@ -130,7 +126,6 @@ export const ResepForm = makeFormScreen({
     { name: 'rekam_medis_id', type: 'hidden' },
     { name: 'nama_obat', label: 'Nama Obat', required: true, maxLength: 150 },
     { name: 'dosis', label: 'Dosis (mis. 3 x 1 sehari)', maxLength: 100 },
-    { name: 'jumlah', label: 'Jumlah', type: 'number', required: true, default: '1', validate:
-[positiveInt('Jumlah')] },
+    { name: 'jumlah', label: 'Jumlah', type: 'number', required: true, default: '1', validate: [positiveInt('Jumlah')] },
   ],
 });

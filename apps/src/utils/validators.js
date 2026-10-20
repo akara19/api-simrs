@@ -1,4 +1,5 @@
-export const required = (label) => (v) => String(v ?? '').trim()===''?`${label} wajib diisi`:'';
+export const required = (label) => (v) =>
+  String(v ?? '').trim() === '' ? `${label} wajib diisi` : '';
 
 export const exactDigits = (label, n) => (v) =>
   /^\d+$/.test(v) && v.length === n ? '' : `${label} harus ${n} digit angka`;

@@ -27,16 +27,12 @@ export default function App() {
         <Stack.Screen name="DokterForm" component={DokterForm} options={formOpt('Dokter')} />
         <Stack.Screen name="PasienList" component={PasienList} options={listOpt('Data Pasien')} />
         <Stack.Screen name="PasienForm" component={PasienForm} options={formOpt('Pasien')} />
-        <Stack.Screen name="PendaftaranList" component={PendaftaranList}
-options={listOpt('Pendaftaran')} />
-        <Stack.Screen name="PendaftaranForm" component={PendaftaranForm}
-options={formOpt('Pendaftaran')} />
-        {/* <Stack.Screen name="RekamMedisList" component={RekamMedisList} options={listOpt('Rekam
-Medis')} />
-        <Stack.Screen name="RekamMedisForm" component={RekamMedisForm} options={formOpt('Rekam
-Medis')} />
+        <Stack.Screen name="PendaftaranList" component={PendaftaranList} options={listOpt('Pendaftaran')} />
+        <Stack.Screen name="PendaftaranForm" component={PendaftaranForm} options={formOpt('Pendaftaran')} />
+        <Stack.Screen name="RekamMedisList" component={RekamMedisList} options={listOpt('Rekam Medis')} />
+        <Stack.Screen name="RekamMedisForm" component={RekamMedisForm} options={formOpt('Rekam Medis')} />
         <Stack.Screen name="ResepList" component={ResepList} options={listOpt('Resep Obat')} />
-        <Stack.Screen name="ResepForm" component={ResepForm} options={formOpt('Resep')} /> */}
+        <Stack.Screen name="ResepForm" component={ResepForm} options={formOpt('Resep')} />
       </Stack.Navigator>
     </NavigationContainer>
   );

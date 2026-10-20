@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "simrs",
-    "slug": "simrs",
+    "name": "SIMRS Poli",
+    "slug": "simrs-poli",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "description": "Praktikum CRUD SIMRS dengan React Native",
     "ios": {
       "supportsTablet": true
     },

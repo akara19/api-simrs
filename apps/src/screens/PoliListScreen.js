@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import { showAlert, confirmDialog } from '../utils/dialog';
 import {
   View, Text, FlatList, TextInput, TouchableOpacity,
-  StyleSheet, Alert, ActivityIndicator,
+  StyleSheet, ActivityIndicator,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { getPoli, searchPoli, deletePoli } from '../services/poliService';
+import { showAlert, confirmDialog } from '../utils/dialog';
 
 export default function PoliListScreen({ navigation }) {
   const [data, setData] = useState([]);
@@ -17,7 +17,7 @@ export default function PoliListScreen({ navigation }) {
     try {
       setData(await getPoli());
     } catch (e) {
-      Alert.alert('Gagal memuat', e.message);
+      showAlert('Gagal memuat', e.message);
     } finally {
       setLoading(false);
     }
@@ -25,7 +25,8 @@ export default function PoliListScreen({ navigation }) {
 
   // Dipanggil setiap layar ini tampil kembali (mis. setelah simpan data)
   useFocusEffect(useCallback(() => { loadData(); }, []));
-const handleSearch = async () => {
+
+  const handleSearch = async () => {
     if (keyword.trim() === '') return loadData();
     setLoading(true);
     try {
@@ -39,20 +40,14 @@ const handleSearch = async () => {
   };
 
   const handleDelete = (item) => {
-    Alert.alert('Hapus Poli', `Yakin menghapus "${item.nama_poli}"?`, [
-      { text: 'Batal', style: 'cancel' },
-      {
-        text: 'Hapus', style: 'destructive',
-        onPress: async () => {
-          try {
-            await deletePoli(item.id);
-            loadData();
-          } catch (e) {
-            Alert.alert('Gagal menghapus', e.message);
-          }
-        },
-      },
-    ]);
+    confirmDialog('Hapus Poli', `Yakin menghapus "${item.nama_poli}"?`, async () => {
+      try {
+        await deletePoli(item.id);
+        loadData();
+      } catch (e) {
+        showAlert('Gagal menghapus', e.message);
+      }
+    });
   };
 
   const renderItem = ({ item }) => (
@@ -130,4 +125,3 @@ const s = StyleSheet.create({
   },
   fabText: { color: '#fff', fontSize: 28, marginTop: -2 },
 });
-

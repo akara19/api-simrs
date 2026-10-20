@@ -32,8 +32,9 @@ export default function makeFormScreen({ api, fields }) {
           showAlert('Gagal memuat pilihan', e.message);
         }
       });
-    },[]);
-  const setField = (name, val) => setValues((v) => ({ ...v, [name]: val }));
+    }, []);
+
+    const setField = (name, val) => setValues((v) => ({ ...v, [name]: val }));
 
     const validate = () => {
       const err = {};
@@ -50,7 +51,8 @@ export default function makeFormScreen({ api, fields }) {
       setErrors(err);
       return Object.keys(err).length === 0;
     };
-const handleSave = async () => {
+
+    const handleSave = async () => {
       if (!validate()) return;
       setSaving(true);
       try {
@@ -64,7 +66,8 @@ const handleSave = async () => {
         setSaving(false);
       }
     };
-const renderField = (f) => {
+
+    const renderField = (f) => {
       if (f.type === 'hidden') return null;
       const opts = options[f.name] || f.options || [];
       return (
@@ -97,10 +100,11 @@ const renderField = (f) => {
             />
           )}
           {!!errors[f.name] && <Text style={s.error}>{errors[f.name]}</Text>}
-</View>
+        </View>
       );
     };
-return (
+
+    return (
       <ScrollView style={s.container} keyboardShouldPersistTaps="handled">
         {fields.map(renderField)}
         <TouchableOpacity style={s.btn} onPress={handleSave} disabled={saving}>
@@ -112,6 +116,7 @@ return (
     );
   };
 }
+
 const s = StyleSheet.create({
   container: { flex: 1, padding: 16, backgroundColor: '#fff' },
   label: { fontWeight: '600', marginTop: 14, marginBottom: 6 },
@@ -128,4 +133,3 @@ const s = StyleSheet.create({
   btn: { backgroundColor: '#2563eb', padding: 14, borderRadius: 8, marginTop: 24, alignItems: 'center' },
   btnText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
 });
-

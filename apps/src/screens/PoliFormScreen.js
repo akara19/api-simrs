@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import {
-  View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator,
+  View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator,
 } from 'react-native';
 import { createPoli, updatePoli } from '../services/poliService';
+import { showAlert } from '../utils/dialog';
 
 export default function PoliFormScreen({ route, navigation }) {
   const poli = route.params?.poli;      // undefined = mode tambah
@@ -22,14 +23,13 @@ export default function PoliFormScreen({ route, navigation }) {
     setError('');
     setSaving(true);
     try {
-const res = isEdit
+      const res = isEdit
         ? await updatePoli(poli.id, namaPoli.trim(), lokasi.trim())
         : await createPoli(namaPoli.trim(), lokasi.trim());
-      Alert.alert('Berhasil', res.message, [
-        { text: 'OK', onPress: () => navigation.goBack() },
-      ]);
+      // goBack dijalankan setelah OK ditekan (berlaku di web maupun mobile)
+      showAlert('Berhasil', res.message, () => navigation.goBack());
     } catch (e) {
-      Alert.alert('Gagal menyimpan', e.message);
+      showAlert('Gagal menyimpan', e.message);
     } finally {
       setSaving(false);
     }
